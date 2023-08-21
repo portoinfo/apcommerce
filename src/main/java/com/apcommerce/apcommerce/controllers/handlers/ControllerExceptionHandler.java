@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.apcommerce.apcommerce.dto.CustomError;
+import com.apcommerce.apcommerce.services.exceptions.DatabaseException;
 import com.apcommerce.apcommerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,4 +22,12 @@ public class ControllerExceptionHandler {
 		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<CustomError> database(DatabaseException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
 }
