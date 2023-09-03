@@ -2,6 +2,10 @@ package com.apcommerce.apcommerce.dto;
 
 import com.apcommerce.apcommerce.entities.Product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 public class ProductDTO {
 
 	private Long id;
@@ -30,14 +34,19 @@ public class ProductDTO {
 		return id;
 	}
 
+	@NotBlank
+	@Size(min = 3, max = 80, message = "O nome precisa ter entre 3 e 80 caracteres.")
 	public String getName() {
 		return name;
 	}
 
+	@NotBlank
+	@Size(min = 10, message = "A descrição precisa ter pelo menos 10 caracteres.")
 	public String getDescription() {
 		return description;
 	}
 
+	@Positive
 	public Double getPrice() {
 		return price;
 	}
